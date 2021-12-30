@@ -1,0 +1,3 @@
+# anyconfig
+-e git+https://github.com/ssato/python-anyconfig.git@next#egg=anyconfig
+fitdecode

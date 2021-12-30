@@ -1,0 +1,11 @@
+include *.txt
+include LICENSE.MIT
+include MANIFEST.in
+include NEWS
+include README.*
+include pkg/*
+include setup.*
+include tox.ini
+include tests/res/*
+recursive-include src *.py
+recursive-include tests *.py *.json *.txt *.fit
