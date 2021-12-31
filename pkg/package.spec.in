@@ -24,6 +24,7 @@ BuildRequires:  python3-setuptools
 %package     -n python3-%{pkgname}
 Summary:        %{summary}
 Requires:       python3-anyconfig
+Requires:       python3-anyconfig-fitdecode
 %{?python_provide:%python_provide python3-%{pkgname}}
 
 %description -n python3-%{pkgname} %{desctxt}
@@ -42,5 +43,8 @@ Requires:       python3-anyconfig
 %{python3_sitelib}/*
 
 %changelog
+* Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.1-1
+- fix: add a missing runtime dependency to python3-fitdecode
+
 * Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.0-1
 - Initial packaging
