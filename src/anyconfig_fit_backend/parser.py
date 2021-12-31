@@ -205,7 +205,7 @@ FRAME_TYPES: typing.FrozenSet['FitFrame'] = frozenset(
 )
 
 
-def try_parse_frame(frame: 'FitFrame') -> typing.OrderedDict:
+def try_parse_frame(frame: 'FitFrame') -> 'typing.OrderedDict':
     """Parse a FIT data frame and retun it as an OrderedDict instance.
     """
     for ftype in FRAME_TYPES:
@@ -257,7 +257,7 @@ class MyProcessor(fitdecode.StandardUnitsDataProcessor):
 
 def each_frame_from_stream(
     stream, **options
-) -> typing.Iterator[typing.OrderedDict]:
+) -> typing.Iterator['typing.OrderedDict']:
     """Load and make a OrderedDict object for each data frames.
 
     .. seealso:: fitdecode.cmdfitjson.main
