@@ -24,6 +24,7 @@ import types
 
 import anyconfig.backend.base
 import fitdecode
+import fitdecode.profile
 
 if typing.TYPE_CHECKING:
     DataDictT = typing.OrderedDict[str, typing.Any]
@@ -94,25 +95,12 @@ def from_dev_field_def(
     )
 
 
-TIME_DATA_NAMES: typing.FrozenSet[str] = frozenset((
-    'timestamp',
-    'time_created',
-    'start_time',
-    'local_timestamp',
-))
-
-
 def from_field_data(obj: fitdecode.types.FieldData) -> 'DataDictT':
     """Make a dict object represents given FieldData ``obj``.
     """
-    if obj.name in TIME_DATA_NAMES:
-        val = from_datetime_or_time(obj.value)
-    else:
-        val = obj.value
-
     return items_to_datadict(
         ('name', obj.name),
-        ('value', val),
+        ('value', obj.value),
         ('units', obj.units if obj.units else ''),
         ('def_num', obj.def_num),
         ('raw_value', obj.raw_value)
@@ -227,6 +215,46 @@ def try_parse_frame(frame: 'FitFrame') -> typing.OrderedDict:
     raise ValueError(f'Invalid frame: {frame!s}')
 
 
+class MyProcessor(fitdecode.StandardUnitsDataProcessor):
+
+    def process_type_date_time(self, reader, field_data):
+        """
+        Convert `datetime.datetime` object to an ISO 8601 format str if
+        possible.
+
+        .. seealso:: fitdecode.DefaultDataProcessor.process_type_date_time
+        """
+        super().process_type_date_time(reader, field_data)
+
+        if isinstance(field_data.value, datetime.datetime):
+            field_data.value = field_data.value.isoformat()
+
+    def process_type_local_date_time(self, reader, field_data):
+        """Similar to the above."""
+        super().process_type_local_date_time(reader, field_data)
+
+        if isinstance(field_data.value, datetime.datetime):
+            field_data.value = field_data.value.isoformat()
+
+    def process_type_localtime_into_day(self, reader, field_data):
+        """Similar to the above."""
+        super().process_type_localtime_into_day(reader, field_data)
+
+        if isinstance(field_data.value, datetime.time):
+            field_data.value = field_data.value.isoformat()
+
+    def process_message_hr(self, reader, data_message):
+        """Similar to the above."""
+        super().process_message_hr(reader, data_message)
+
+        if data_message.has_field(
+                fitdecode.profile.FIELD_NUM_HR_EVENT_TIMESTAMP_12):
+            for field_data in data_message.get_fields(
+                    fitdecode.profile.FIELD_NUM_HR_EVENT_TIMESTAMP):
+                if isinstance(field_data.value, datetime.datetime):
+                    field_data.value = field_data.value.isoformat()
+
+
 def each_frame_from_stream(
     stream, **options
 ) -> typing.Iterator[typing.OrderedDict]:
@@ -236,7 +264,7 @@ def each_frame_from_stream(
     """
     with fitdecode.FitReader(
             stream,
-            processor=fitdecode.StandardUnitsDataProcessor(),
+            processor=MyProcessor(),
             check_crc=options.get('check_crc', fitdecode.CrcCheck.WARN),
             keep_raw_chunks=True) as reader:
         for frame in reader:
