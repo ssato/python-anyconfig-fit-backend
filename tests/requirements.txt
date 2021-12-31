@@ -1,0 +1,9 @@
+coveralls
+flake8
+pycodestyle
+pylint
+pytest
+pytest-cov
+pytest-profiling
+pytest-randomly
+pytest-xdist[psutil]
