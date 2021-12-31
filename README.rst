@@ -51,6 +51,9 @@ It utilizes a great library fitdecode [#]_ to load and parse FIT data files.
 Build & Install
 ================
 
+- From PyPI: anyconfig-fit-backend (package name) [#]_ 
+- Pre-built RPMs are available from my copr repo, ssato/python-anyconfig [#]_
+
 If you're Fedora or Red Hat Enterprise Linux user, try::
 
   $ python setup.py srpm && mock dist/<package>-<ver_dist>.src.rpm
@@ -63,5 +66,8 @@ and install built RPMs.
 
 Otherwise, try usual ways to build and/or install python modules such like
 'python setup.py bdist', etc.
+
+.. [#] https://pypi.org/project/anyconfig-fit-backend/
+.. [#]  https://copr.fedorainfracloud.org/coprs/ssato/python-anyconfig/packages/
 
 .. vim:sw=2:ts=2:et:
