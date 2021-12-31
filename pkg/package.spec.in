@@ -44,7 +44,7 @@ Requires:       python3-anyconfig-fitdecode
 
 %changelog
 * Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.1-1
-- fix: add a missing runtime dependency to python3-fitdecode
+- fix: [rpm] add a missing runtime dependency to python3-fitdecode
 
 * Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.0-1
 - Initial packaging

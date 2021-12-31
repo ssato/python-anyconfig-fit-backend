@@ -1,2 +1,5 @@
+* Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.1-1
+- fix: [rpm] add a missing runtime dependency to python3-fitdecode
+
 * Sat Jan  1 2022 ssato - 0.1.0-1
 - initial release
