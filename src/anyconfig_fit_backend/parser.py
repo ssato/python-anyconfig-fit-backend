@@ -20,13 +20,12 @@ Chnagelog:
 import collections
 import datetime
 import typing
+import types
 
 import anyconfig.backend.base
 import fitdecode
 
 if typing.TYPE_CHECKING:
-    import types
-
     DataDictT = typing.OrderedDict[str, typing.Any]
 
     FitFrame = typing.Union[
@@ -99,6 +98,7 @@ TIME_DATA_NAMES: typing.FrozenSet[str] = frozenset((
     'timestamp',
     'time_created',
     'start_time',
+    'local_timestamp',
 ))
 
 
@@ -227,12 +227,18 @@ def try_parse_frame(frame: 'FitFrame') -> typing.OrderedDict:
     raise ValueError(f'Invalid frame: {frame!s}')
 
 
-def each_frame_from_filepath(stream) -> typing.Iterator[typing.OrderedDict]:
+def each_frame_from_stream(
+    stream, **options
+) -> typing.Iterator[typing.OrderedDict]:
     """Load and make a OrderedDict object for each data frames.
 
     .. seealso:: fitdecode.cmdfitjson.main
     """
-    with fitdecode.FitReader(stream) as reader:
+    with fitdecode.FitReader(
+            stream,
+            processor=fitdecode.StandardUnitsDataProcessor(),
+            check_crc=options.get('check_crc', fitdecode.CrcCheck.WARN),
+            keep_raw_chunks=True) as reader:
         for frame in reader:
             yield try_parse_frame(frame)
 
@@ -243,10 +249,12 @@ class Parser(anyconfig.backend.base.Parser,
     """
     Loader for fortios (fortigate) "show *configuration" outputs.
     """
-    _cid = "fit"
-    _type = "fit"
+    _cid = 'fit'
+    _type = 'fit'
     _extensions = ['fit']
+    _load_opts = ['check_crc']
     _ordered = True
+    _allow_primitives = True
 
     def load_from_stream(self, stream, _container, **kwargs):
         """
@@ -258,7 +266,7 @@ class Parser(anyconfig.backend.base.Parser,
 
         :return: Dict-like object holding config parameters
         """
-        return list(each_frame_from_filepath(stream))
+        return list(each_frame_from_stream(stream, **kwargs))
 
     def dump_to_stream(self, cnf, stream, **kwargs):
         """
