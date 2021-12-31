@@ -42,5 +42,5 @@ Requires:       python3-anyconfig
 %{python3_sitelib}/*
 
 %changelog
-* Fri Dec 31 2021 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.0-1
+* Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.0-1
 - Initial packaging
