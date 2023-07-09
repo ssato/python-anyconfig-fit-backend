@@ -43,6 +43,10 @@ Requires:       python3-anyconfig-fitdecode
 %{python3_sitelib}/*
 
 %changelog
+* Sun Jul  9 2023 Satoru SATOH <satoru.satoh@gmail.com> - 0.2.0-1
+- fix: follow changes in anyconfig
+- change: fix: drop python {2.7,3.{6,7} and add 3.1{0,1} support
+
 * Sat Jan  1 2022 Satoru SATOH <satoru.satoh@gmail.com> - 0.1.1-1
 - fix: [rpm] add a missing runtime dependency to python3-fitdecode
 
