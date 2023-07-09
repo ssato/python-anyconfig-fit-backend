@@ -22,14 +22,6 @@ python-anyconfig-fit-backend
    :target: https://coveralls.io/r/ssato/python-anyconfig-fit-backend
    :alt: Coverage Status
 
-.. image:: https://img.shields.io/lgtm/alerts/g/ssato/python-anyconfig-fit-backend.svg
-   :target: https://lgtm.com/projects/g/ssato/python-anyconfig-fit-backend/alerts/
-   :alt: [Total Alerts by LGTM]
-
-.. image:: https://img.shields.io/lgtm/grade/python/g/ssato/python-anyconfig-fit-backend.svg
-   :target: https://lgtm.com/projects/g/ssato/python-anyconfig-fit-backend/context:python
-   :alt: [Code Quality by LGTM]
-
 This is a backend module for python-anyconfig to support to load and parse
 FIT (Flexible and Interoperable Data Transfer) data files.
 
